@@ -1,0 +1,46 @@
+/* General settings */
+
+body
+{
+    background-color: white;
+    color: black;
+    background-image: none;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, Arial, Courier, Sans-Serif;
+    font-size: 10pt;
+    font-weight: normal;
+}
+
+div#source {
+    width: 100px;
+    height: 100px;
+    background-color: gainsboro;
+    border: dashed 1px gray;
+    text-align: center;
+    font-style: italic;
+    color: white;
+    margin: 2px;
+    display: inline-block;
+}
+
+div#source.selected {
+    background-color: plum;
+    border: solid 1px black;
+    color: black;
+
+}
+
+div.select {
+    width: 100px;
+    height: 100px;
+    background-color: gainsboro;
+    border: dashed 1px gray;
+    text-align: center;
+    font-style: italic;
+    color: white;
+    margin: 2px;
+    display: inline-block;
+}
