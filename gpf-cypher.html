@@ -1,34 +1,67 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <LINK rel="stylesheet" type="text/css" href="gpf-cypher.css">
         <title>GPF Cypher</title>
+        <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="gpf-cypher.css">
         <script language="javascript" src="gpf.js"></script>
         <script language="javascript" src="gpf-cypher.js"></script>
-        <!-- https://www.iconfinder.com/iconsets/wpzoom-developer-icon-set -->
+        <!--  -->
     </head>
     <body>
+        <div class="workspace">
 
-        <div id="source">
-            Please select crypted file
-            <br/>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAACIUlEQVRYhe2XO2gUURSGv/9kNz4KRRRFCT4Kg70ErRTsROwt0kXSBRFBbCJiIVhrIdj4CAFre1HWbrWwDQajBGKhWIiR6LrHYmfNZHbu3tnJJIL4wy127nl898zec+/Af/XKgGlJ7yR5ReO9md0CakUALlWYeM0ApqPZJTU3CkDSXF65s9oXYXzj7pPuftDd6+5ec/cRd58AmhHf/UUq8CFAvwJMBaD/uAMTkr4HYnwtC9ACzkadV3VK0kplAGZ2Y4DkXV2pCmAJ2F4CYFjSfAyg3/vsAs0CyyUAfkh6HDOKArTb7ZeBqbqZ3UwazNaAbyMWv0fZVwCcCJheSNlMBmyOxV5BkdY4HHj+FvhJp4o9DSbRtljwIgCjQF4pX7n7KDAEzAd8j8aCF/kTnuszvdAnOWZ2PhY/L2F2G7bIX4mAKUlzkpbMbBbYm5o/lNMRS3fCBlDPmF7LsVsExgCT9LTKVuxm9gTYkrJbTOaeAZclfU5+LweSrw8gGU3gZGL3LdmCVxPXEUkvIsfxugG643VqxV+Aw4n7EHBdUmujAfIqk+4XY5IWNhMg78Q8IKmxaQDqbNczmXB1M3tQGsDM7gLHzexRQYiP9F67dkr6VQoA2JU8PjJAJZ6ztsXvkdQOAcRa8TidvT8eJV/VaTO7B+wAdku6T6drFpP+9rXc3WcGWO1AcveeG1LecXzH3WuSLhL/RiiqT+7+ELhdUbx/SL8B1QiK3r0MfTIAAAAASUVORK5CYII=">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAADNUlEQVRYheWXXYhOaxTHf/9lzhkMR5Tp5CslStxMnVCio9SpQ8qVkJSLoXwmF9LJXCgTSklOnSgn59bFuZAS+YgLIoo5XJDIxzCKIs6YZvbjYj/7nTXbfrfXa7ix6qn1/N/1POu/1/6v53k3fO+mOta0AAvMbALQHPfoSpLkKXAeuAaEQWMY7Scz2yXpgaTwifHYzPYAYwYr+TpJL2pInB8vgS3UV2UAhprZsZIEV5x/tSTuOND0uckbJV0o2fQisDGbA39IOlkSf7UaCSsEzQ4D8+O0R1I70BvnvSGE9eSEFkLYDLzPppL2AN1x/oukf4ryFRFoDSGsin5fCGF5kiTvgYaI/QvcLFh3V9LR6AtoCCEsBXoitpRUE6U2QlKnK+02AEl3HLYoxm7wryBiM303RCJrc8Is7Y4dXmSkFZrisKeuEkUEkNTh8JaInc4wM2v3CQe0iKTbwPRPlekL7UkIYSJRQ14D075BcoDxxMpAfzkB5jr/f/oVPNLFvQb6ot8IDC+IN2BU9Pvimnz8POB6ntlO9+7WZaCkSw6f6uILNQA0O8385/DlTgf7MrDyCszsZxf83PnDnf82z7rAfMywKnuO+4gA/aUFSJzf4/zGGgj4GL/W71nJVdFAkiTPpLQpJG2S9DtACGFShW16y72K+IwMl7RE0sQ4bQqhckiONbO/8vsAnUXMV9dx49U1gA2Vh3IETvMV/khUsTOFqKTrTql7gYVAq2N/P2ILzeygiz2a4ZJuuSfdGvE2t8fdMmZbXWAHqUZM0vOIJaQHCRS34WhJPRF/QypIk3TZxbb5hPnb8E/gUfRnmNluIJF0IisSsKbkAVYDP0T/FOn1vAOYHbEuYH9ZBQBWuiokQCswx2HPSP9c5CswTNJDh/0GrJDUW3TAZTakgMAtMxsLzAIkaTHwSFITaflHEI/erFWBc2b2K7Akzm8DnZIOZTkkHQsh+BOz1Boknci1T7fz3+VE+Hfu9+7c2rPUdogNJGFmB0r6ua+KP2CY2RHgx89N7m2ZavseyI/HpKIcFBtK2qI3akjcAWxn4CVW1er5aJgMLAAmmFkzoCRJuoDs0+xeHXt+x/YBJSxwd+5PKqwAAAAASUVORK5CYII=">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAACQ0lEQVRYhe3Vu2tUQRTH8e9vSKFG0Bht1VIri6gxxhc2YiUIgqCYQlFQixizvgr9C0SMRiKoaGNpZy0pDAjGjaIWviKCRZo8fKObvRZ7wx6HnXt377pJkwMDuzNn9nPu3J0ZmI/6o0vSG0mvgL2zjV+UFJlWBE7OFT6rRYRwW8SJucIbWkSvhzyWNJJQxDTQ1RDcOTcACGiW9LPRReQ8/GaMA2yTVEx5HdPAoaz4JQ/vM/hOSd9r+E8cr/fJbwEuHuuQNGXGXwL7JQ0mFFEADmbFbxt8k4c/B1bEY/tSVqIA7EnDezz8jsHbJU0G8GUpu2KmvU7C10n6Y/C7Bt8gacLDlxv8mQf9ChTwNqg7564Y/J7B13v4iMFbPXwC6AQWS3rhFwAcDhYgaThO/AY0xd1tksarxCeBjeWf05CHX0ha/oWSfsfJQ3HfIkljCXjew9tncOfcVQ8/n4QDbDbL3x/3tah80uWB1gA+BXQYvM/Dz6XhAN1mwhHTvwPoAZYG8C8efs3Dz1aD45y7bya1BdKWVMA768YBJL0zE9cE0k4Z4CuwxeDXPfxM1TilZbWXykdgdYW87fH+Hge2Grzfw3O14AC7KxwYo8CqCrktQHMC3lsrDt6tZ9oHYGVgjpxzNzz8dBYcSQ8DBUSS3lN6HWuBA865y5Ie6d87IaK0U7KFpM8JBaS1AtCdxW0yn39kmD8qabBYLA4AT7IUYONYylN+kvSA0lm+i/KJWFfI+35UUg5YAOSjKBoGnsZt7H+A8+HHX7OMU7Etcpl1AAAAAElFTkSuQmCC">
+<!--
+            <div class="box unselected source" id="source">
+                <div class="title">Crypted file</div>
+                <div class="toolbar">
+                    <div class="button file"></div>
+                    <div class="button url"></div>
+                    <div class="button edit"></div>
+                </div>
+            </div>
+-->
+            <div class="box selected source " id="source">
+                <div class="title">Size: 0</div>
+                <div class="toolbar">
+                    <div class="button download"></div>
+                    <div class="button edit"></div>
+                </div>
+            </div>
+
+            <div class="box unselected key">
+                <div class="title">Enter key</div>
+                <div class="toolbar">
+                    <div class="button file"></div>
+                    <div class="button touch"></div>
+                </div>
+            </div>
+
+            <div class="box selected file">
+                <div class="title">Size: 0</div>
+            </div>
+
+            <div class="box selected touch">
+                <div class="title">Glyph</div>
+            </div>
+
         </div>
-
-        <div id="source" class="selected">
-            Size: 0
-            <br/>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAB0UlEQVRYhe2VPUsdQRSGn/ckIEFRLEKKQCAYGwuLFGIhAcukyV+wTH5FbCxSpUkhNlra+AuEQLDQxj4ElYR8QApJJFf8iO6xcHcd9u7dvevuvcGQFwZ2z3DmfWbmzAz815XGJK1LOpbkDbbPZvYauFPoLuldw8bZ9h4YavMNAA6A4aDvNxABI0HMgV9drqhlcgE23P0Z0MpbgVZCCzyJw48ys9jv0jzRpKTTzBgb5KxECBDS1QVA0m52O8zsbdJvOTle1aREUZuB+/MigH5otFuAk5L/2rpd0v/F3eclzQCRuy83DZCqQxE2Me5Ozp2QeuRtwSBXx7CuJoEHhYABaSs2T/SzAYAR8id56O5DUFwDowV9jelvHcN/A+AA2AZ2GiEJH6OSFpnZAjAQpM9K+lThaS5+DYuamb3pMIcJSUe9BoiAe3HKU0kfzWyZ+DhLWqsKULUGDoEfsdlLYNzd54D7cWy34niVAQaBuwDuvgJ8k7QKfI9jD6sCpKpQA0sdhpiS9KfnRRjXwSvgVpA+fd1TUPQWlOkr8IHL+/5xBqhM6VtQB6COUoCwCM/7ZA5wlnyEAFt9BNhMPhQExyQtcrmfaktpRg5su/sLYK9HHjdMF8ITDVfX5xlOAAAAAElFTkSuQmCC">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAACQ0lEQVRYhe3Vu2tUQRTH8e9vSKFG0Bht1VIri6gxxhc2YiUIgqCYQlFQixizvgr9C0SMRiKoaGNpZy0pDAjGjaIWviKCRZo8fKObvRZ7wx6HnXt377pJkwMDuzNn9nPu3J0ZmI/6o0vSG0mvgL2zjV+UFJlWBE7OFT6rRYRwW8SJucIbWkSvhzyWNJJQxDTQ1RDcOTcACGiW9LPRReQ8/GaMA2yTVEx5HdPAoaz4JQ/vM/hOSd9r+E8cr/fJbwEuHuuQNGXGXwL7JQ0mFFEADmbFbxt8k4c/B1bEY/tSVqIA7EnDezz8jsHbJU0G8GUpu2KmvU7C10n6Y/C7Bt8gacLDlxv8mQf9ChTwNqg7564Y/J7B13v4iMFbPXwC6AQWS3rhFwAcDhYgaThO/AY0xd1tksarxCeBjeWf05CHX0ha/oWSfsfJQ3HfIkljCXjew9tncOfcVQ8/n4QDbDbL3x/3tah80uWB1gA+BXQYvM/Dz6XhAN1mwhHTvwPoAZYG8C8efs3Dz1aD45y7bya1BdKWVMA768YBJL0zE9cE0k4Z4CuwxeDXPfxM1TilZbWXykdgdYW87fH+Hge2Grzfw3O14AC7KxwYo8CqCrktQHMC3lsrDt6tZ9oHYGVgjpxzNzz8dBYcSQ8DBUSS3lN6HWuBA865y5Ie6d87IaK0U7KFpM8JBaS1AtCdxW0yn39kmD8qabBYLA4AT7IUYONYylN+kvSA0lm+i/KJWFfI+35UUg5YAOSjKBoGnsZt7H+A8+HHX7OMU7Etcpl1AAAAAElFTkSuQmCC">
-        </div>
-
-        <div class="select">
-            Please select key
-            <br/>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAACIUlEQVRYhe2XO2gUURSGv/9kNz4KRRRFCT4Kg70ErRTsROwt0kXSBRFBbCJiIVhrIdj4CAFre1HWbrWwDQajBGKhWIiR6LrHYmfNZHbu3tnJJIL4wy127nl898zec+/Af/XKgGlJ7yR5ReO9md0CakUALlWYeM0ApqPZJTU3CkDSXF65s9oXYXzj7pPuftDd6+5ec/cRd58AmhHf/UUq8CFAvwJMBaD/uAMTkr4HYnwtC9ACzkadV3VK0kplAGZ2Y4DkXV2pCmAJ2F4CYFjSfAyg3/vsAs0CyyUAfkh6HDOKArTb7ZeBqbqZ3UwazNaAbyMWv0fZVwCcCJheSNlMBmyOxV5BkdY4HHj+FvhJp4o9DSbRtljwIgCjQF4pX7n7KDAEzAd8j8aCF/kTnuszvdAnOWZ2PhY/L2F2G7bIX4mAKUlzkpbMbBbYm5o/lNMRS3fCBlDPmF7LsVsExgCT9LTKVuxm9gTYkrJbTOaeAZclfU5+LweSrw8gGU3gZGL3LdmCVxPXEUkvIsfxugG643VqxV+Aw4n7EHBdUmujAfIqk+4XY5IWNhMg78Q8IKmxaQDqbNczmXB1M3tQGsDM7gLHzexRQYiP9F67dkr6VQoA2JU8PjJAJZ6ztsXvkdQOAcRa8TidvT8eJV/VaTO7B+wAdku6T6drFpP+9rXc3WcGWO1AcveeG1LecXzH3WuSLhL/RiiqT+7+ELhdUbx/SL8B1QiK3r0MfTIAAAAASUVORK5CYII=">
+        <div class="footer">
+            <table>
+                <tr>
+                    <td>
+                        <div class="button key"></div>
+                    </td>
+                    <td>
+                        <a target="_blank" href="https://github.com/ArnaudBuchholz/gpf-cypher">GPF Cypher</a>
+                        <br/>
+                        By <a target="_blank" href="http://gpf-js.blogspot.com/">Arnaud Buchholz</a>, using <a target="_blank" href="https://github.com/ArnaudBuchholz/gpf-js">GPF Library</a>
+                        <br/>
+                        Icons from <a target="_blank" href="http://www.wpzoom.com/wpzoom/new-freebie-wpzoom-developer-icon-set-154-free-icons/">http://www.wpzoom.com</a>
+                    </td>
+                </tr>
+            </table>
         </div>
     </body>
 </html>
