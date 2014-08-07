@@ -55,6 +55,6 @@ window.onlad=gpf.loaded(function () {
         });
 
     var source = new Box();
-    gpf.html.handle(source, "source");
+    gpf.html.handle(source, "#source");
 
 });
