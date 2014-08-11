@@ -106,7 +106,8 @@ div.box.selected {
 /* Buttons */
 
 div.toolbar {
-    padding: 2px;
+    padding: 0px;
+    padding-left: 8px;
 }
 
 div.toolbar div.left {
@@ -130,6 +131,28 @@ div.button {
     border-radius: 4px;
     margin: 4px;
     display: inline-block;
+}
+
+div.toolbar div.button {
+    display: block;
+    position: relative;
+    left: 0px;
+    top: 0px;
+}
+
+div.toolbar div.button:nth-child(2) {
+    left: 54px;
+    top: -54px;
+}
+
+div.toolbar div.button:nth-child(3) {
+    left: 0px;
+    top: -54px;
+}
+
+div.toolbar div.button:nth-child(4) {
+    left: 54px;
+    top: -108px;
 }
 
 div.box.selected div.button {
