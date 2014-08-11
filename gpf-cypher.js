@@ -4,6 +4,23 @@ window.onlad=gpf.loaded(function () {
     var
         Box = gpf.define("Box", {
 
+            protected: {
+
+                onFileSelected: function (file) {
+                    alert(file.name);
+                },
+
+                setTitle: function (text) {
+                    this._ui.querySelector("div.title").innerHTML =
+                        gpf.escapeFor(text, "html");
+                },
+
+                setToolbar: function () {
+                    this._ui.querySelector("div.toolbar").innerHTML = "";
+                }
+
+            },
+
             private: {
 
                 "[_ui]": [gpf.$HtmlHandler()],
@@ -30,7 +47,7 @@ window.onlad=gpf.loaded(function () {
                 _onBrowsed: function (event) {
                     var file = event.target.files[0];
                     if (undefined !== file) {
-                        alert(file.name);
+                        this.onFileSelected(file);
                     }
                 },
 
@@ -40,7 +57,13 @@ window.onlad=gpf.loaded(function () {
                     // Check this is a file
                     event.stopPropagation();
                     event.preventDefault();
-                    event.dataTransfer.dropEffect = 'copy';
+                    var
+                        files = event.dataTransfer.files;
+                    if (files && 1 === files.length) {
+                        event.dataTransfer.dropEffect = "copy";
+                    } else {
+                        event.dataTransfer.dropEffect = "none";
+                    }
                 },
 
                 "[_onDrop]": [gpf.$HtmlEvent("drop")],
@@ -48,9 +71,10 @@ window.onlad=gpf.loaded(function () {
                     event.stopPropagation();
                     event.preventDefault();
                     var
-                        files = event.dataTransfer.files,
-                        len = files.length;
-                    alert(event.dataTransfer.files[0].name);
+                        files = event.dataTransfer.files;
+                    if (files && 1 === files.length) {
+                        this.onFileSelected(file);
+                    }
                 }
 
             }
@@ -61,6 +85,14 @@ window.onlad=gpf.loaded(function () {
         }),
 
         KeySelector = gpf.define("Source", Box, {
+
+            protected: {
+                onFileSelected: function (file) {
+                    this._ui.className = "box selected file";
+                    this.setTitle("Size: " + file.size);
+                    this.setToolbar();
+                }
+            }
 
         });
 
