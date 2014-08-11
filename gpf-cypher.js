@@ -84,13 +84,31 @@ window.onlad=gpf.loaded(function () {
 
         }),
 
-        KeySelector = gpf.define("Source", Box, {
+        Key = gpf.define("Key", Box, {
+
+            static: {
+                list: [],
+                template: null
+            },
+
+            private: {
+
+                onKeySelected: function (type) {
+                    this._ui.className = "box selected " + type;
+                    this.setToolbar();
+                    Key.list.push(this);
+                    // Create a new key placeholder
+                    var newKey = this._ui.parentNode
+                        .appendChild(Key.template.cloneNode(true));
+                    gpf.html.handle(new Key(), newKey);
+                }
+
+            },
 
             protected: {
                 onFileSelected: function (file) {
-                    this._ui.className = "box selected file";
+                    this.onKeySelected("file");
                     this.setTitle("Size: " + file.size);
-                    this.setToolbar();
                 }
             }
 
@@ -98,7 +116,7 @@ window.onlad=gpf.loaded(function () {
 
     var source = new Source();
     gpf.html.handle(source, "#source");
-    var keySelector = new KeySelector();
-    gpf.html.handle(keySelector, "#keySelector");
+    var domTemplate = gpf.html.handle(new Key(), ".box.unselected.key");
+    Key.template = domTemplate.cloneNode(true);
 
 });
