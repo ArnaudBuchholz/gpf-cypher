@@ -76,9 +76,18 @@ div.footer {
 
 /* 'TEXTAREA' interface */
 
+text {
+    min-height: 100%;
+    position: relative;
+    margin: 0 auto;
+    padding-bottom: 80px;
+}
+
 textarea {
-    border: solid 1px black;
+    border: 0;
+    background-color: #DAC0DE;
     width: 100%;
+    height: auto;
     resize: none;
     margin: 0px;
     padding: 0px;
