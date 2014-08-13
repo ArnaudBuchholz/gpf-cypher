@@ -82,6 +82,15 @@ window.onlad=gpf.loaded(function () {
 
         Source = gpf.define("Source", Box, {
 
+            private: {
+
+                "[_onEditSource]": [gpf.$HtmlEvent("click", "div.button.edit")],
+                _onEditSource: function (event) {
+                    alert("Edit source");
+                }
+
+            }
+
         }),
 
         Key = gpf.define("Key", Box, {
