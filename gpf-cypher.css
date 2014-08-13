@@ -74,6 +74,15 @@ div.footer {
     display: none;
 }
 
+/* 'Result' interface */
+
+result {
+    min-height: 100%;
+    position: relative;
+    margin: 0 auto;
+    padding-bottom: 80px;
+}
+
 /* 'TEXTAREA' interface */
 
 text {
