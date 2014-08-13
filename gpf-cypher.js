@@ -86,6 +86,11 @@ window.onlad=gpf.loaded(function () {
 
                 "[_onEditSource]": [gpf.$HtmlEvent("click", "div.button.edit")],
                 _onEditSource: function (event) {
+                    var text = document.querySelector(".text");
+                    document.querySelector(".workspace")
+                        .setAttribute("style", "display: none;");
+                    text.setAttribute("style", "display: block;");
+
                     alert("Edit source");
                 }
 
