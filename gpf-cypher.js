@@ -62,7 +62,7 @@ window.onlad=gpf.loaded(function () {
                         // TODO find a better way to achieve this
                         var div = document.createElement("div");
                         div.innerHTML = "<input type=\"file\" id=\"sourceFile\""
-                            + " style=\"display: none;\">";
+                            + " class=\"hide\">";
 
                         this._fileInput = this._ui.appendChild(div.firstChild);
                         // TODO see if it can be done automatically
@@ -144,6 +144,9 @@ window.onlad=gpf.loaded(function () {
                     gpf.$HtmlEvent("click", "div.footer div.button.key", true)
                 ],
                 _onSwitchView: function (event) {
+                    var
+                        result = document.querySelector("div.result"),
+                        workspace = text.querySelector("textarea");
                     if (this._displayed) {
 
                     } else {
