@@ -112,17 +112,24 @@ window.onlad=gpf.loaded(function () {
 
             private: {
 
+                "[_resultUI]": [gpf.$HtmlHandler("div.result", true)],
+                _resultUI: null,
+
+                "[_workspaceUI]": [gpf.$HtmlHandler("div.workspace", true)],
+                _workspaceUI: null,
+
+                "[_textUI]": [gpf.$HtmlHandler("div.text", true)],
+                _textUI: null,
+
                 _source: _license,
                 _displayed: false,
 
                 "[_onEditSource]": [gpf.$HtmlEvent("click", "div.button.edit")],
                 _onEditSource: function (event) {
                     var
-                        text = document.querySelector(".text"),
-                        textarea = text.querySelector("textarea");
-                    document.querySelector(".workspace")
-                        .setAttribute("style", "display: none;");
-                    text.setAttribute("style", "display: block;");
+                        textarea = this._textUI.querySelector("textarea");
+                    gpf.html.addClass(this._workspaceUI, "hide");
+                    gpf.html.removeClass(this._textUI, "hide");
                     // TODO check if _source is up-to-date
                     textarea.value = this._source;
                 },
@@ -132,12 +139,10 @@ window.onlad=gpf.loaded(function () {
                 ],
                 _onSourceEdited: function (event) {
                     var
-                        text = document.querySelector(".text"),
-                        textarea = text.querySelector("textarea");
+                        textarea = this._textUI.querySelector("textarea");
                     this._source = textarea.value;
-                    document.querySelector(".workspace")
-                        .setAttribute("style", "display: block;");
-                    text.setAttribute("style", "display: none;");
+                    gpf.html.removeClass(this._workspaceUI, "hide");
+                    gpf.html.addClass(this._textUI, "hide");
                 },
 
                 "[_onSwitchView]": [
@@ -145,14 +150,17 @@ window.onlad=gpf.loaded(function () {
                 ],
                 _onSwitchView: function (event) {
                     var
-                        result = document.querySelector("div.result"),
-                        workspace = text.querySelector("textarea");
-                    if (this._displayed) {
-
+                        displayed = !gpf.html.hasClass(this._resultUI, "hide");
+                    if (displayed) {
+                        gpf.html.addClass(this._resultUI, "hide");
+                        gpf.html.removeClass(this._workspaceUI, "hide");
                     } else {
-
+                        gpf.html.removeClass(this._resultUI, "hide");
+                        if (!gpf.html.hasClass(this._textUI, "hide")) {
+                            this._onSourceEdited();
+                        }
+                        gpf.html.addClass(this._workspaceUI, "hide");
                     }
-                    this._displayed = !this._displayed;
                 }
 
             }
