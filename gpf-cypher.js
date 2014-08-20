@@ -1,5 +1,5 @@
 window.onlad=gpf.loaded(function () {
-    "uses strict";
+    "use strict";
 
     var
         _license =
@@ -27,15 +27,17 @@ window.onlad=gpf.loaded(function () {
             + "ption or\r\nlimitation.\r\n\r\nNo warranties are given. The lice"
             + "nse may not give you all of the permissions\r\nnecessary for you"
             + "r intended use. For example, other rights such as publicity,\r\n"
-            + "privacy, or moral rights may limit how you use the material.\r\n"
-        ,
+            + "privacy, or moral rights may limit how you use the material.\r"
+            + "\n",
 
         Box = gpf.define("Box", {
 
             protected: {
 
+                _file: null,
+
                 onFileSelected: function (file) {
-                    alert(file.name);
+                    this._file = file;
                 },
 
                 setTitle: function (text) {
@@ -101,7 +103,7 @@ window.onlad=gpf.loaded(function () {
                     var
                         files = event.dataTransfer.files;
                     if (files && 1 === files.length) {
-                        this.onFileSelected(file);
+                        this.onFileSelected(files[0]);
                     }
                 }
 
@@ -109,6 +111,17 @@ window.onlad=gpf.loaded(function () {
         }),
 
         Source = gpf.define("Source", Box, {
+
+            protected: {
+
+                onFileSelected: function (file) {
+                    // this.baseOnFileSelected(file);
+                    gpf.html.removeClass(this._ui, "unlock");
+                    gpf.html.addClass(this._ui, "lock");
+                    this._source = null;
+                }
+
+            },
 
             private: {
 
@@ -124,20 +137,32 @@ window.onlad=gpf.loaded(function () {
                 _source: _license,
                 _displayed: false,
 
+                _decodeSource: function (callback) {
+                    if (null === this._source) {
+                        // TODO animate
+                        gpf.defer(callback, 10, this);
+                    } else {
+                        callback.apply(this, []);
+                    }
+                },
+
                 "[_onEditSource]": [gpf.$HtmlEvent("click", "div.button.edit")],
-                _onEditSource: function (event) {
-                    var
-                        textarea = this._textUI.querySelector("textarea");
+                _onEditSource: function (/*event*/) {
                     gpf.html.addClass(this._workspaceUI, "hide");
                     gpf.html.removeClass(this._textUI, "hide");
-                    // TODO check if _source is up-to-date
+                    this._decodeSource(this._onEditDecodedSource);
+                },
+
+                _onEditDecodedSource: function () {
+                    var
+                        textarea = this._textUI.querySelector("textarea");
                     textarea.value = this._source;
                 },
 
                 "[_onSourceEdited]": [
                     gpf.$HtmlEvent("click", "div.text div.button.save", true)
                 ],
-                _onSourceEdited: function (event) {
+                _onSourceEdited: function (/*event*/) {
                     var
                         textarea = this._textUI.querySelector("textarea");
                     this._source = textarea.value;
@@ -148,19 +173,31 @@ window.onlad=gpf.loaded(function () {
                 "[_onSwitchView]": [
                     gpf.$HtmlEvent("click", "div.footer div.button.key", true)
                 ],
-                _onSwitchView: function (event) {
+                _onSwitchView: function (/*event*/) {
                     var
                         displayed = !gpf.html.hasClass(this._resultUI, "hide");
                     if (displayed) {
                         gpf.html.addClass(this._resultUI, "hide");
                         gpf.html.removeClass(this._workspaceUI, "hide");
                     } else {
-                        gpf.html.removeClass(this._resultUI, "hide");
                         if (!gpf.html.hasClass(this._textUI, "hide")) {
                             this._onSourceEdited();
                         }
-                        gpf.html.addClass(this._workspaceUI, "hide");
+                        this._decodeSource(this._onDisplayResult);
                     }
+                },
+
+                _onDisplayResult: function () {
+                    var
+                        parser,
+                        output;
+                    parser = new gpf.html.MarkdownParser();
+                    output = [];
+                    parser.setOutputHandler(output);
+                    parser.parse(this._source, null);
+                    this._resultUI.innerHTML = output.join("");
+                    gpf.html.removeClass(this._resultUI, "hide");
+                    gpf.html.addClass(this._workspaceUI, "hide");
                 }
 
             }
