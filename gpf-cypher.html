@@ -14,35 +14,27 @@
         <script language="javascript" src="gpf-cypher.js"></script>
     </head>
     <body>
-        <div class="page">
-            <div class="header">
-                <table>
-                    <tr>
-                        <td>
-                            <a class="button edit"><a>
-                        </td>
-                       <td>
-                            <a class="button file"></a>
-                        </td>
-                        <td>
-                            <a target="_blank" href="https://github.com/ArnaudBuchholz/gpf-cypher">GPF Cypher</a>
-                            <br/>
-                            By <a target="_blank" href="http://gpf-js.blogspot.com/">Arnaud Buchholz</a>, using <a target="_blank" href="https://github.com/ArnaudBuchholz/gpf-js">GPF Library</a>
-                            <br/>
-                            Icons from <a target="_blank" href="http://www.wpzoom.com/wpzoom/new-freebie-wpzoom-developer-icon-set-154-free-icons/">http://www.wpzoom.com</a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-
-            <div class="text hide">
-                <div class="button save"></div>
-                <textarea rows="20"></textarea>
-            </div>
-            <div class="result hide">
-            </div>
-            <div class="workspace">
+        <table class="main">
+            <thead>
+                <tr>
+                    <td>
+                        <a class="button icon_edit"></a>
+                        <a class="button icon_file"></a>
+                        <a class="button icon_info"></a>
+                    </td>
+                </tr>
+            </thead>
+            <tbody class="info hide"><tr><td>
+                <a target="_blank" href="https://github.com/ArnaudBuchholz/gpf-cypher">GPF Cypher</a>
+                <br/>
+                By <a target="_blank" href="http://gpf-js.blogspot.com/">Arnaud Buchholz</a>, using <a target="_blank" href="https://github.com/ArnaudBuchholz/gpf-js">GPF Library</a>
+                <br/>
+                Icons from <a target="_blank" href="http://www.wpzoom.com/wpzoom/new-freebie-wpzoom-developer-icon-set-154-free-icons/">http://www.wpzoom.com</a>
+            </td></tr></tbody>
+            <tbody class="source hide"><tr><td>
+                <textarea></textarea>
+            </td></tr></tbody>
+            <tbody class="cypher"><tr><td>
                 <div class="box selected unlock" id="source">
                     <div class="title">Source</div>
                     <div class="toolbar">
@@ -54,67 +46,9 @@
                     <div class="title">Enter key</div>
                     <div class="toolbar">
                         <div class="button file"></div>
-                        <!--<div class="button touch"></div>-->
                     </div>
                 </div>
-<!--
-
-            <div class="textarea">
-                <div class="toolbar">
-                    <div class="button reload"></div>
-                    <div class="button yes"></div>
-                </div>
-                <textarea id="textarea">
-                </textarea>
-            </div>
-
-            <div class="main">
-
-
-                <div class="box selected source " id="source">
-                    <div class="title">Size: 0</div>
-                    <div class="toolbar">
-                        <div class="button download"></div>
-                        <div class="button edit"></div>
-                    </div>
-                </div>
-
-                <div class="box unselected key">
-                    <div class="title">Enter key</div>
-                    <div class="toolbar">
-                        <div class="button file"></div>
-                        <div class="button touch"></div>
-                    </div>
-                </div>
-
-                <div class="box selected file">
-                    <div class="title">Size: 0</div>
-                </div>
-
-                <div class="box selected touch">
-                    <div class="title">Glyph</div>
-                </div>
-
-            </div>
--->
-            </div>
-            <div class="footer">
-                <table>
-                    <tr>
-                        <td>
-                            <div class="button key"></div>
-                        </td>
-                        <td>
-                            <a target="_blank" href="https://github.com/ArnaudBuchholz/gpf-cypher">GPF Cypher</a>
-                            <br/>
-                            By <a target="_blank" href="http://gpf-js.blogspot.com/">Arnaud Buchholz</a>, using <a target="_blank" href="https://github.com/ArnaudBuchholz/gpf-js">GPF Library</a>
-                            <br/>
-                            Icons from <a target="_blank" href="http://www.wpzoom.com/wpzoom/new-freebie-wpzoom-developer-icon-set-154-free-icons/">http://www.wpzoom.com</a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-        </div>
+            </td></tr></tbody>
+        </table>
     </body>
 </html>
