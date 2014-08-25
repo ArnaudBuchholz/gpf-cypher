@@ -35,14 +35,33 @@ Source is displayed as HTML, the header of the page shows two buttons and the
 license. By default, the source is this file.
 
 Buttons are:
-(PEN) Edit source
+(EDIT) Edit source
 (FILE) Open file / Drop file target
+(INFO) Display the about box
 
-1. Click on (PEN): go to SOURCE DISPLAY
+1. Click on (PEN): go to SOURCE SCREEN
 
 2. Click on (FILE) or Drag and Drop on it, go to KEY DEFINITION
 
+3. Click on (INFO): go to INFO SCREEN
+
 (Loading source means load file and de-cypher with no key)
+
+**INFO SCREEN**
+
+The about box is displayed.
+
+Buttons are:
+(BACK) Back to the previous screen
+
+**SOURCE SCREEN**
+
+This screen is used to edit the source file.
+
+Buttons are:
+(VIEW) Go to DISPLAY SCREEN
+(LOCK) Go to KEY SCREEN
+(INFO) Display the about box
 
 **KEY DEFINITION**
 
