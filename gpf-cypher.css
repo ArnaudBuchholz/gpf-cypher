@@ -244,3 +244,6 @@ div.box.selected a.button:active {
     display: none;
 }
 
+a.hide {
+    display: none;
+}
