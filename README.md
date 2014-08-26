@@ -29,21 +29,15 @@ layers).
 
 *File* represents the result of source cyphered with different keys
 
-**INITIAL SCREEN**
+**DISPLAY SCREEN**
 
-Source is displayed as HTML, the header of the page shows two buttons and the
-license. By default, the source is this file.
+Source is displayed as HTML, the header of the page shows a toolbar.
+By default, the source is this file.
 
 Buttons are:
-(EDIT) Edit source
-(FILE) Open file / Drop file target
-(INFO) Display the about box
-
-1. Click on (PEN): go to SOURCE SCREEN
-
-2. Click on (FILE) or Drag and Drop on it, go to KEY DEFINITION
-
-3. Click on (INFO): go to INFO SCREEN
+(EDIT) go to SOURCE SCREEN
+(FILE) Open file / Drop file target to go to KEY SCREEN
+(INFO) go to INFO SCREEN
 
 (Loading source means load file and de-cypher with no key)
 
@@ -61,23 +55,18 @@ This screen is used to edit the source file.
 Buttons are:
 (VIEW) Go to DISPLAY SCREEN
 (LOCK) Go to KEY SCREEN
+(SAVE) Download cyphered source (using defined keys)
 (INFO) Display the about box
 
-**KEY DEFINITION**
+**KEY SCREEN**
 
 Buttons are:
 (UNLOCK) Apply the current key and go to DISPLAY SCREEN
-(SAVE) Download the file (provided it has been previously unlocked)
-=> PB
+(SAVE) Download cyphered source (using defined keys)
+(INFO) Display the about box
 
 KEYs appear as boxes with options. There is always a 'new key' placeholder.
 When used to create a key, a new placeholder is created.
-
-**DISPLAY DEFINITION**
-
-Buttons are:
-(PEN) Edit source
-(LOCK) Go to **KEY DEFINITION**
 
 ## Features
 
