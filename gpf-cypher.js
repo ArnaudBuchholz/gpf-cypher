@@ -110,7 +110,16 @@ window.onlad=gpf.loaded(function () {
             }
         }),
 
-        Source = gpf.define("Source", Box, {
+        Controller = gpf.define("Controller", Box, {
+
+            public: {
+
+                init: function () {
+                    this._switchMode("display");
+                    this._onDisplayResult();
+                }
+
+            },
 
             protected: {
 
@@ -125,17 +134,67 @@ window.onlad=gpf.loaded(function () {
 
             private: {
 
-                "[_resultUI]": [gpf.$HtmlHandler("div.result", true)],
+                "[_infoUI]": [gpf.$HtmlHandler("tbody.info", true)],
+                _infoUI: null,
+
+                "[_resultUI]": [gpf.$HtmlHandler("tbody.result", true)],
                 _resultUI: null,
 
-                "[_workspaceUI]": [gpf.$HtmlHandler("div.workspace", true)],
-                _workspaceUI: null,
+                "[_cypherUI]": [gpf.$HtmlHandler("tbody.cypher", true)],
+                _cypherUI: null,
 
-                "[_textUI]": [gpf.$HtmlHandler("div.text", true)],
-                _textUI: null,
+                "[_sourceUI]": [gpf.$HtmlHandler("tbody.source", true)],
+                _sourceUI: null,
 
-                _source: _license,
-                _displayed: false,
+                _source: _license, // Default
+
+                _modes: {
+                    "display": {
+                        ui: "result",
+                        buttons: ["edit", "file", "info"]
+                    },
+                    "info": {
+                        ui: "info",
+                        buttons: ["back"]
+                    },
+                    "source": {
+                        ui: "source",
+                        buttons: ["view", "lock", "save", "info"]
+                    },
+                    "key": {
+                        ui: "cypher",
+                        buttons: ["unlock", "save", "info"]
+                    }
+                },
+                _mode: "",
+
+                _switchMode: function (mode) {
+                    var
+                        ui,
+                        buttons,
+                        len,
+                        idx,
+                        button,
+                        name;
+                    if (this._mode) {
+                        ui = this._modes[this._mode].ui;
+                        gpf.html.addClass(this["_" + ui + "UI"], "hide");
+                    }
+                    this._mode = mode;
+                    mode = this._modes[mode];
+                    gpf.html.removeClass(this["_" + mode.ui + "UI"], "hide");
+                    buttons = document.querySelectorAll("thead a");
+                    len = buttons.length;
+                    for (idx = 0; idx < len; ++idx) {
+                        button = buttons[idx];
+                        name = button.className.split(' ')[1].substr(5);
+                        if (-1 === mode.buttons.indexOf(name)) {
+                            gpf.html.addClass(button, "hide");
+                        } else {
+                            gpf.html.removeClass(button, "hide");
+                        }
+                    }
+                },
 
                 _decodeSource: function (callback) {
                     if (null === this._source) {
@@ -146,16 +205,17 @@ window.onlad=gpf.loaded(function () {
                     }
                 },
 
-                "[_onEditSource]": [gpf.$HtmlEvent("click", "div.button.edit")],
+                "[_onEditSource]": [gpf.$HtmlEvent("click",
+                    "thead a.button.icon_edit")],
                 _onEditSource: function (/*event*/) {
-                    gpf.html.addClass(this._workspaceUI, "hide");
-                    gpf.html.removeClass(this._textUI, "hide");
+                    gpf.html.addClass(this._resultUI, "hide");
+                    gpf.html.removeClass(this._sourceUI, "hide");
                     this._decodeSource(this._onEditDecodedSource);
                 },
 
                 _onEditDecodedSource: function () {
                     var
-                        textarea = this._textUI.querySelector("textarea");
+                        textarea = this._sourceUI.querySelector("textarea");
                     textarea.value = this._source;
                 },
 
@@ -196,8 +256,6 @@ window.onlad=gpf.loaded(function () {
                     parser.setOutputHandler(output);
                     parser.parse(this._source, null);
                     this._resultUI.innerHTML = output.join("");
-                    gpf.html.removeClass(this._resultUI, "hide");
-                    gpf.html.addClass(this._workspaceUI, "hide");
                 }
 
             }
@@ -234,9 +292,10 @@ window.onlad=gpf.loaded(function () {
 
         });
 
-    var source = new Source();
-    gpf.html.handle(source, "#source");
-    var domTemplate = gpf.html.handle(new Key(), ".box.unselected.key");
-    Key.template = domTemplate.cloneNode(true);
+    var controller = new Controller();
+    gpf.html.handle(controller, document);
+    controller.init();
+//    var domTemplate = gpf.html.handle(new Key(), ".box.unselected.key");
+//    Key.template = domTemplate.cloneNode(true);
 
 });
