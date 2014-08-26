@@ -115,7 +115,6 @@ window.onlad=gpf.loaded(function () {
             public: {
 
                 init: function () {
-                    this._switchMode("display");
                     this._onDisplayResult();
                 }
 
@@ -145,8 +144,6 @@ window.onlad=gpf.loaded(function () {
 
                 "[_sourceUI]": [gpf.$HtmlHandler("tbody.source", true)],
                 _sourceUI: null,
-
-                _source: _license, // Default
 
                 _modes: {
                     "display": {
@@ -196,6 +193,25 @@ window.onlad=gpf.loaded(function () {
                     }
                 },
 
+                "[_onAbout]": [
+                    gpf.$HtmlEvent("click", "thead a.button.icon_info")
+                ],
+                _onAbout: function (/*event*/) {
+                    this._previousMode = this._mode;
+                    this._switchMode("info");
+                },
+
+                _previousMode: "",
+
+                "[_onBack]": [
+                    gpf.$HtmlEvent("click", "thead a.button.icon_back")
+                ],
+                _onBack: function (/*event*/) {
+                    this._switchMode(this._previousMode);
+                },
+
+                _source: _license, // Default
+
                 _decodeSource: function (callback) {
                     if (null === this._source) {
                         // TODO animate
@@ -205,11 +221,10 @@ window.onlad=gpf.loaded(function () {
                     }
                 },
 
-                "[_onEditSource]": [gpf.$HtmlEvent("click",
-                    "thead a.button.icon_edit")],
+                "[_onEditSource]": [
+                    gpf.$HtmlEvent("click", "thead a.button.icon_edit")
+                ],
                 _onEditSource: function (/*event*/) {
-                    gpf.html.addClass(this._resultUI, "hide");
-                    gpf.html.removeClass(this._sourceUI, "hide");
                     this._decodeSource(this._onEditDecodedSource);
                 },
 
@@ -217,34 +232,17 @@ window.onlad=gpf.loaded(function () {
                     var
                         textarea = this._sourceUI.querySelector("textarea");
                     textarea.value = this._source;
+                    this._switchMode("source");
                 },
 
                 "[_onSourceEdited]": [
-                    gpf.$HtmlEvent("click", "div.text div.button.save", true)
+                    gpf.$HtmlEvent("click", "thead a.button.icon_view")
                 ],
                 _onSourceEdited: function (/*event*/) {
                     var
-                        textarea = this._textUI.querySelector("textarea");
+                        textarea = this._sourceUI.querySelector("textarea");
                     this._source = textarea.value;
-                    gpf.html.removeClass(this._workspaceUI, "hide");
-                    gpf.html.addClass(this._textUI, "hide");
-                },
-
-                "[_onSwitchView]": [
-                    gpf.$HtmlEvent("click", "div.footer div.button.key", true)
-                ],
-                _onSwitchView: function (/*event*/) {
-                    var
-                        displayed = !gpf.html.hasClass(this._resultUI, "hide");
-                    if (displayed) {
-                        gpf.html.addClass(this._resultUI, "hide");
-                        gpf.html.removeClass(this._workspaceUI, "hide");
-                    } else {
-                        if (!gpf.html.hasClass(this._textUI, "hide")) {
-                            this._onSourceEdited();
-                        }
-                        this._decodeSource(this._onDisplayResult);
-                    }
+                    this._onDisplayResult();
                 },
 
                 _onDisplayResult: function () {
@@ -256,6 +254,7 @@ window.onlad=gpf.loaded(function () {
                     parser.setOutputHandler(output);
                     parser.parse(this._source, null);
                     this._resultUI.innerHTML = output.join("");
+                    this._switchMode("display");
                 }
 
             }
