@@ -30,87 +30,104 @@ window.onlad=gpf.loaded(function () {
             + "privacy, or moral rights may limit how you use the material.\r"
             + "\n",
 
-        Box = gpf.define("Box", {
+        /**
+         * File handler:
+         * base methods to allow browse dialog as well as drag & drop of files
+         *
+         * @type {Object}
+         */
+        FileHandler = {
 
-            protected: {
+            /**
+             * Retrieved FILE
+             *
+             * @type {Object}
+             * @private
+             */
+            _file: null,
 
-                _file: null,
+            /**
+             * Dynamically created file input
+             *
+             * @type {Object}
+             * @private
+             */
+            _fileInput: null,
 
-                onFileSelected: function (file) {
-                    this._file = file;
-                },
-
-                setTitle: function (text) {
-                    this._ui.querySelector("div.title").innerHTML =
-                        gpf.escapeFor(text, "html");
-                },
-
-                setToolbar: function () {
-                    this._ui.querySelector("div.toolbar").innerHTML = "";
+            /**
+             * Used to open the browse dialog.
+             * Must be connected to an HTML handler (see below)
+             *
+             * @param {Object} event the HTML event object
+             * @private
+             */
+            _onBrowse: function (/*event*/) {
+                if (null === this._fileInput) {
+                    // TODO find a better way to achieve this
+                    var div = document.createElement("div");
+                    div.innerHTML = "<input type=\"file\" id=\"sourceFile\""
+                        + " class=\"hide\">";
+                    this._fileInput = this._ui.appendChild(div.firstChild);
+                    gpf.html.handle(this);
                 }
-
+                this._fileInput.click();
             },
 
-            private: {
-
-                "[_ui]": [gpf.$HtmlHandler()],
-                _ui: null,
-
-                _fileInput: null,
-
-                "[_onBrowse]": [gpf.$HtmlEvent("click", "div.button.file")],
-                _onBrowse: function (/*event*/) {
-                    if (null === this._fileInput) {
-                        // TODO find a better way to achieve this
-                        var div = document.createElement("div");
-                        div.innerHTML = "<input type=\"file\" id=\"sourceFile\""
-                            + " class=\"hide\">";
-
-                        this._fileInput = this._ui.appendChild(div.firstChild);
-                        // TODO see if it can be done automatically
-                        gpf.html.handle(this);
-                    }
-                    this._fileInput.click();
-                },
-
-                "[_onBrowsed]": [gpf.$HtmlEvent("change", "input[type=file]")],
-                _onBrowsed: function (event) {
-                    var file = event.target.files[0];
-                    if (undefined !== file) {
-                        this.onFileSelected(file);
-                    }
-                },
-
-
-                "[_onDragOver]": [gpf.$HtmlEvent("dragover")],
-                _onDragOver: function (event) {
-                    // Check this is a file
-                    event.stopPropagation();
-                    event.preventDefault();
-                    var
-                        files = event.dataTransfer.files;
-                    if (files && 1 === files.length) {
-                        event.dataTransfer.dropEffect = "copy";
-                    } else {
-                        event.dataTransfer.dropEffect = "none";
-                    }
-                },
-
-                "[_onDrop]": [gpf.$HtmlEvent("drop")],
-                _onDrop: function (event) {
-                    event.stopPropagation();
-                    event.preventDefault();
-                    var
-                        files = event.dataTransfer.files;
-                    if (files && 1 === files.length) {
-                        this.onFileSelected(files[0]);
-                    }
+            /**
+             * Triggered when the user selected a file through the browse dialog
+             *
+             * @param {Object} event the HTML event object
+             * @private
+             */
+            "[_onBrowsed]": [gpf.$HtmlEvent("change", "input[type=file]")],
+            _onBrowsed: function (event) {
+                var file = event.target.files[0];
+                if (undefined !== file) {
+                    this._file = file;
+                    this._onFileSelected(file);
                 }
+            },
 
+            /**
+             * Drag & Drop implementation, Drag Over part
+             * Must be connected to an HTML handler (see below)
+             *
+             * @param {Object} event the HTML event object
+             * @private
+             */
+            _onDragOver: function (event) {
+                // Check this is a file
+                event.stopPropagation();
+                event.preventDefault();
+                var
+                    files = event.dataTransfer.files;
+                if (files && 1 === files.length) {
+                    event.dataTransfer.dropEffect = "copy";
+                } else {
+                    event.dataTransfer.dropEffect = "none";
+                }
+            },
+
+            /**
+             * Drag & Drop implementation, Drag Over part
+             * Must be connected to an HTML handler (see below)
+             *
+             * @param {Object} event the HTML event object
+             * @private
+             */
+            _onDrop: function (event) {
+                event.stopPropagation();
+                event.preventDefault();
+                var
+                    files = event.dataTransfer.files;
+                if (files && 1 === files.length) {
+                    this._file = files[0];
+                    this._onFileSelected(this._file);
+                }
             }
-        }),
+        },
 
-        Controller = gpf.define("Controller", Box, {
+        Controller = gpf.define("Controller", {
 
             public: {
 
@@ -120,18 +137,29 @@ window.onlad=gpf.loaded(function () {
 
             },
 
-            protected: {
+            private: gpf.extend({
 
-                onFileSelected: function (file) {
-                    // this.baseOnFileSelected(file);
+                "[_onBrowse]": [gpf.$HtmlEvent("click", "a.button.icon_file")],
+                "[_onDragOver]": [
+                    gpf.$HtmlEvent("dragover", "a.button.icon_file")
+                ],
+                "[_onDrop]": [gpf.$HtmlEvent("drop", "a.button.icon_file")],
+
+                /**
+                 * When a file is opened / dropped
+                 *
+                 * @param {Object} file HTML5 File handler
+                 * @private
+                 */
+                _onFileSelected: function (file) {
+                    alert(file.name);
                     gpf.html.removeClass(this._ui, "unlock");
                     gpf.html.addClass(this._ui, "lock");
                     this._source = null;
-                }
+                },
 
-            },
-
-            private: {
+                "[_ui]": [gpf.$HtmlHandler()],
+                _ui: null,
 
                 "[_infoUI]": [gpf.$HtmlHandler("tbody.info", true)],
                 _infoUI: null,
@@ -193,9 +221,7 @@ window.onlad=gpf.loaded(function () {
                     }
                 },
 
-                "[_onAbout]": [
-                    gpf.$HtmlEvent("click", "thead a.button.icon_info")
-                ],
+                "[_onAbout]": [gpf.$HtmlEvent("click", "a.button.icon_info")],
                 _onAbout: function (/*event*/) {
                     this._previousMode = this._mode;
                     this._switchMode("info");
@@ -203,9 +229,7 @@ window.onlad=gpf.loaded(function () {
 
                 _previousMode: "",
 
-                "[_onBack]": [
-                    gpf.$HtmlEvent("click", "thead a.button.icon_back")
-                ],
+                "[_onBack]": [gpf.$HtmlEvent("click", "a.button.icon_back")],
                 _onBack: function (/*event*/) {
                     this._switchMode(this._previousMode);
                 },
@@ -222,7 +246,7 @@ window.onlad=gpf.loaded(function () {
                 },
 
                 "[_onEditSource]": [
-                    gpf.$HtmlEvent("click", "thead a.button.icon_edit")
+                    gpf.$HtmlEvent("click", "a.button.icon_edit")
                 ],
                 _onEditSource: function (/*event*/) {
                     this._decodeSource(this._onEditDecodedSource);
@@ -236,7 +260,7 @@ window.onlad=gpf.loaded(function () {
                 },
 
                 "[_onSourceEdited]": [
-                    gpf.$HtmlEvent("click", "thead a.button.icon_view")
+                    gpf.$HtmlEvent("click", "a.button.icon_view")
                 ],
                 _onSourceEdited: function (/*event*/) {
                     var
@@ -257,11 +281,11 @@ window.onlad=gpf.loaded(function () {
                     this._switchMode("display");
                 }
 
-            }
+            }, FileHandler)
 
         }),
 
-        Key = gpf.define("Key", Box, {
+        Key = gpf.define("Key", {
 
             static: {
                 list: [],
@@ -292,8 +316,11 @@ window.onlad=gpf.loaded(function () {
         });
 
     var controller = new Controller();
-    gpf.html.handle(controller, document);
+    gpf.html.handle(controller, "thead");
     controller.init();
+
+    //TODO prevent global dragOver
+
 //    var domTemplate = gpf.html.handle(new Key(), ".box.unselected.key");
 //    Key.template = domTemplate.cloneNode(true);
 
