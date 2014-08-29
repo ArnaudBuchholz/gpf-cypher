@@ -131,7 +131,11 @@ window.onlad=gpf.loaded(function () {
 
             public: {
 
-                init: function () {
+                /**
+                 * @constructor
+                 */
+                constructor: function () {
+                    gpf.html.handle(this, "thead");
                     this._onDisplayResult();
                 }
 
@@ -139,6 +143,11 @@ window.onlad=gpf.loaded(function () {
 
             private: gpf.extend({
 
+                //region FileHandler
+
+                /**
+                 * Missing attributes to connect FileHandler methods
+                 */
                 "[_onBrowse]": [gpf.$HtmlEvent("click", "a.button.icon_file")],
                 "[_onDragOver]": [
                     gpf.$HtmlEvent("dragover", "a.button.icon_file")
@@ -158,6 +167,10 @@ window.onlad=gpf.loaded(function () {
                     this._source = null;
                 },
 
+                //endregion
+
+                //region HTML Mappings
+
                 "[_ui]": [gpf.$HtmlHandler()],
                 _ui: null,
 
@@ -173,6 +186,19 @@ window.onlad=gpf.loaded(function () {
                 "[_sourceUI]": [gpf.$HtmlHandler("tbody.source", true)],
                 _sourceUI: null,
 
+                //endregion
+
+                //region Modes handling
+
+                /**
+                 * Modes definitions:
+                 * Mapping of mode name to:
+                 * - ui to show
+                 * - buttons to show
+                 *
+                 * @type {Object}
+                 * @private
+                 */
                 _modes: {
                     "display": {
                         ui: "result",
@@ -191,8 +217,21 @@ window.onlad=gpf.loaded(function () {
                         buttons: ["unlock", "save", "info"]
                     }
                 },
+
+                /**
+                 * Current mode
+                 *
+                 * @type {String}
+                 * @private
+                 */
                 _mode: "",
 
+                /**
+                 * Mode switching helper
+                 *
+                 * @param {String} mode Mode to switch to
+                 * @private
+                 */
                 _switchMode: function (mode) {
                     var
                         ui,
@@ -221,18 +260,36 @@ window.onlad=gpf.loaded(function () {
                     }
                 },
 
+                //endregion
+
+                //region About screen management
+
+                /**
+                 * About screen button
+                 */
                 "[_onAbout]": [gpf.$HtmlEvent("click", "a.button.icon_info")],
                 _onAbout: function (/*event*/) {
                     this._previousMode = this._mode;
                     this._switchMode("info");
                 },
 
+                /**
+                 * Previous mode (before displaying about)
+                 *
+                 * @type {String}
+                 * @private
+                 */
                 _previousMode: "",
 
+                /**
+                 * Back from about screen
+                 */
                 "[_onBack]": [gpf.$HtmlEvent("click", "a.button.icon_back")],
                 _onBack: function (/*event*/) {
                     this._switchMode(this._previousMode);
                 },
+
+                //endregion
 
                 _source: _license, // Default
 
@@ -316,8 +373,6 @@ window.onlad=gpf.loaded(function () {
         });
 
     var controller = new Controller();
-    gpf.html.handle(controller, "thead");
-    controller.init();
 
     //TODO prevent global dragOver
 
