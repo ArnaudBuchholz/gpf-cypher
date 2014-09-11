@@ -336,6 +336,20 @@ window.onlad=gpf.loaded(function () {
                     parser.parse(this._source, null);
                     this._resultUI.innerHTML = output.join("");
                     this._switchMode("display");
+                },
+
+                "[_onSave]": [
+                    gpf.$HtmlEvent("click", "a.button.icon_save")
+                ],
+                _onSave: function (/*event*/) {
+                    // Testing save algorithm
+                    var stream = gpf.stringToStream(this._source);
+                    gpf.stream.readAllAsB64(stream, function (event) {
+                        var
+                            b64string = event.get("buffer");
+                        window.open("data:application/octet-stream;base64,"
+                            + b64string);
+                    });
                 }
 
             }, FileHandler)
