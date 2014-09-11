@@ -343,8 +343,11 @@ window.onlad=gpf.loaded(function () {
                 ],
                 _onSave: function (/*event*/) {
                     // Testing save algorithm
-                    var stream = gpf.stringToStream(this._source);
-                    gpf.stream.readAllAsB64(stream, function (event) {
+                    var
+                        utf8Stream = gpf.encoding.createDecoder(
+                            gpf.stringToStream(this._source),
+                            gpf.encoding.UTF_8);
+                    gpf.stream.readAllAsB64(utf8Stream, function (event) {
                         var
                             b64string = event.get("buffer");
                         window.open("data:application/octet-stream;base64,"
