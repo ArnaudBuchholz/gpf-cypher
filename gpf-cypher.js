@@ -344,14 +344,15 @@ window.onlad=gpf.loaded(function () {
                 _onSave: function (/*event*/) {
                     // Testing save algorithm
                     var
-                        utf8Stream = gpf.encoding.createDecoder(
+                        utf8Stream = gpf.encoding.createEncoder(
                             gpf.stringToStream(this._source),
                             gpf.encoding.UTF_8);
                     gpf.stream.readAllAsB64(utf8Stream, function (event) {
                         var
                             b64string = event.get("buffer");
-                        window.open("data:application/octet-stream;base64,"
-                            + b64string);
+                        window.location =
+                            "data:application/octet-stream;base64,"
+                            + b64string;
                     });
                 }
 
