@@ -348,11 +348,18 @@ window.onlad=gpf.loaded(function () {
                             gpf.stringToStream(this._source),
                             gpf.encoding.UTF_8);
                     gpf.stream.readAllAsB64(utf8Stream, function (event) {
+                        // TODO modify the button URL to allow right click on it
                         var
-                            b64string = event.get("buffer");
-                        window.location =
+                            b64string = event.get("buffer"),
+                            // http://stackoverflow.com/questions/3916191/
+                            link;
+                        link = document.createElement("a");
+                        link.setAttribute("download", "gpf-cypher.bin");
+                        link.setAttribute("href",
                             "data:application/octet-stream;base64,"
-                            + b64string;
+                            + b64string);
+
+                        link.click();
                     });
                 }
 
