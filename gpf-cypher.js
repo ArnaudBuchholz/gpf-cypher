@@ -251,7 +251,7 @@ window.onlad=gpf.loaded(function () {
                     len = buttons.length;
                     for (idx = 0; idx < len; ++idx) {
                         button = buttons[idx];
-                        name = button.className.split(' ')[1].substr(5);
+                        name = button.className.split(" ")[1].substr(5);
                         if (-1 === mode.buttons.indexOf(name)) {
                             gpf.html.addClass(button, "hide");
                         } else {
@@ -361,6 +361,13 @@ window.onlad=gpf.loaded(function () {
 
                         link.click();
                     });
+                },
+
+                "[_onEditKey]": [
+                    gpf.$HtmlEvent("click", "a.button.icon_lock")
+                ],
+                _onEditKey: function (/*event*/) {
+                    this._switchMode("key");
                 }
 
             }, FileHandler)
