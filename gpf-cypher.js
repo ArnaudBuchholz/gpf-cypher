@@ -374,41 +374,52 @@ window.onlad=gpf.loaded(function () {
 
         }),
 
-        Key = gpf.define("Key", {
+        NewKeyHandler = gpf.define("NewKeyHandler", {
 
             static: {
                 list: [],
                 template: null
             },
 
-            private: {
+            public: {
 
-                onKeySelected: function (type) {
-                    this._ui.className = "box selected " + type;
-                    this.setToolbar();
-                    Key.list.push(this);
-                    // Create a new key placeholder
-                    var newKey = this._ui.parentNode
-                        .appendChild(Key.template.cloneNode(true));
-                    gpf.html.handle(new Key(), newKey);
+                /**
+                 * @constructor
+                 */
+                constructor: function () {
+                    gpf.html.handle(this,
+                        "tbody.cypher div.box.unselected.icon_key");
                 }
 
             },
 
-            protected: {
-                onFileSelected: function (file) {
-                    this.onKeySelected("file");
-                    this.setTitle("Size: " + file.size);
+            private: gpf.extend({
+
+                /**
+                 * Missing attributes to connect FileHandler methods
+                 */
+                "[_onBrowse]": [gpf.$HtmlEvent("click", "a.button.icon_file")],
+                "[_onDragOver]": [gpf.$HtmlEvent("dragover")],
+                "[_onDrop]": [gpf.$HtmlEvent("drop")],
+
+                /**
+                 * When a file is opened / dropped
+                 *
+                 * @param {Object} file HTML5 File handler
+                 * @private
+                 */
+                _onFileSelected: function (file) {
+                    alert(file.name);
                 }
-            }
+
+            }, FileHandler)
 
         });
 
-    var controller = new Controller();
-
-    //TODO prevent global dragOver
-
-//    var domTemplate = gpf.html.handle(new Key(), ".box.unselected.key");
-//    Key.template = domTemplate.cloneNode(true);
+    var
+        controller = new Controller(),
+        newKeyHandler = new NewKeyHandler()/*,
+        domTemplate = gpf.html.handle(new Key(), ".box.unselected.key");
+    NewKeyHandler.template = domTemplate.cloneNode(true)*/;
 
 });
