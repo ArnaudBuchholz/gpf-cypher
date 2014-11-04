@@ -51,13 +51,8 @@ table.main tbody tr {
     vertical-align: top;
 }
 
-/* 'Result' interface */
-
-.result {
-    min-height: 100%;
-    position: relative;
-    margin: 4px;
-    padding-bottom: 80px;
+table.main tbody td {
+    padding: 4px;
 }
 
 /* 'TEXTAREA' interface */
