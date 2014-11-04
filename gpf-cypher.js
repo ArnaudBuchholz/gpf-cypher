@@ -331,9 +331,10 @@ window.onlad=gpf.loaded(function () {
                         parser,
                         output;
                     parser = new gpf.html.MarkdownParser();
-                    output = [];
+                    output = ["<tr><td>"];
                     parser.setOutputHandler(output);
                     parser.parse(this._source, null);
+                    output.push("</td></tr>");
                     this._resultUI.innerHTML = output.join("");
                     this._switchMode("display");
                 },
@@ -387,8 +388,8 @@ window.onlad=gpf.loaded(function () {
                  * @constructor
                  */
                 constructor: function () {
-                    gpf.html.handle(this,
-                        "tbody.cypher div.box.unselected.icon_key");
+                    //gpf.html.handle(this,
+                    //    "tbody.cypher div.box.unselected.icon_key");
                 }
 
             },
