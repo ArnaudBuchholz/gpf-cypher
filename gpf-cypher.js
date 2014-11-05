@@ -1,4 +1,4 @@
-window.onlad=gpf.loaded(function () {
+function main() {
     "use strict";
 
     var
@@ -423,4 +423,9 @@ window.onlad=gpf.loaded(function () {
         domTemplate = gpf.html.handle(new Key(), ".box.unselected.key");
     NewKeyHandler.template = domTemplate.cloneNode(true)*/;
 
-});
+}
+
+window.onload=function () {
+    "use strict";
+    gpf.loaded(main);
+};
