@@ -2,34 +2,6 @@ function main() {
     "use strict";
 
     var
-        _license =
-            "# Attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3"
-            + ".0)\r\n\r\nThis is a human-readable summary of (and not a substi"
-            + "tute for) the\r\n[license](http://creativecommons.org/licenses/b"
-            + "y-nc-sa/3.0/legalcode).\r\n\r\n**You are free to**:\r\n\r\n* **S"
-            + "hare** - copy and redistribute the material in any medium or for"
-            + "mat\r\n* **Adapt** - remix, transform, and build upon the materi"
-            + "al\r\n\r\nThe licensor cannot revoke these freedoms as long as y"
-            + "ou follow the license\r\nterms.\r\n\r\n**Under the following ter"
-            + "ms**:\r\n\r\n* **Attribution** - You must give appropriate credi"
-            + "t, provide a link to the\r\nlicense, and indicate if changes wer"
-            + "e made. You may do so in any reasonable\r\nmanner, but not in an"
-            + "y way that suggests the licensor endorses you or your use.\r\n* "
-            + "**NonCommercial** - You may not use the material for commercial "
-            + "purposes.\r\n* **ShareAlike** - If you remix, transform, or buil"
-            + "d upon the material, you must\r\ndistribute your contributions u"
-            + "nder the same license as the original.\r\n\r\n**No additional re"
-            + "strictions** - You may not apply legal terms or technological\r"
-            + "\nmeasures that legally restrict others from doing anything the "
-            + "license permits.\r\n\r\n**Notices**:\r\n\r\nYou do not have to c"
-            + "omply with the license for elements of the material in the\r\npu"
-            + "blic domain or where your use is permitted by an applicable exce"
-            + "ption or\r\nlimitation.\r\n\r\nNo warranties are given. The lice"
-            + "nse may not give you all of the permissions\r\nnecessary for you"
-            + "r intended use. For example, other rights such as publicity,\r\n"
-            + "privacy, or moral rights may limit how you use the material.\r"
-            + "\n",
-
         /**
          * File handler:
          * base methods to allow browse dialog as well as drag & drop of files
@@ -127,6 +99,11 @@ function main() {
             }
         },
 
+        /**
+         * Main controller class
+         *
+         * @class Controller
+         */
         Controller = gpf.define("Controller", {
 
             public: {
@@ -134,8 +111,9 @@ function main() {
                 /**
                  * @constructor
                  */
-                constructor: function () {
+                constructor: function (source) {
                     gpf.html.handle(this, "thead");
+                    this._source = source;
                     this._onDisplayResult();
                 }
 
@@ -291,7 +269,7 @@ function main() {
 
                 //endregion
 
-                _source: _license, // Default
+                _source: "", // Default
 
                 _decodeSource: function (callback) {
                     if (null === this._source) {
@@ -333,7 +311,7 @@ function main() {
                     parser = new gpf.html.MarkdownParser();
                     output = ["<tr><td>"];
                     parser.setOutputHandler(output);
-                    parser.parse(this._source, null);
+                    parser.parse(this._source, gpf.Parser.FINALIZE);
                     output.push("</td></tr>");
                     this._resultUI.innerHTML = output.join("");
                     this._switchMode("display");
@@ -371,7 +349,29 @@ function main() {
                     this._switchMode("key");
                 }
 
-            }, FileHandler)
+            }, FileHandler),
+
+            static: {
+
+                /**
+                 * Convert the MarkDown into HTML
+                 *
+                 * @param {String} source
+                 * @return {String}
+                 */
+                toHtml: function (source) {
+                    var
+                        parser,
+                        output;
+                    parser = new gpf.html.MarkdownParser();
+                    output = ["<tr><td>"];
+                    parser.setOutputHandler(output);
+                    parser.parse(source, gpf.Parser.FINALIZE);
+                    output.push("</td></tr>");
+                    return output.joint("");
+                }
+
+            }
 
         }),
 
@@ -418,10 +418,12 @@ function main() {
         });
 
     var
-        controller = new Controller(),
+        infoText = document.querySelector("tbody.info").textContent,
+        controller = new Controller(infoText),
         newKeyHandler = new NewKeyHandler()/*,
         domTemplate = gpf.html.handle(new Key(), ".box.unselected.key");
     NewKeyHandler.template = domTemplate.cloneNode(true)*/;
+
 
 }
 
