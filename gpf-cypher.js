@@ -62,44 +62,23 @@ if (parameters.verbose) {
     }
 }
 
-// Open the streams
-/*
- * TODO:
- *   handle synchronization: when everything is loaded, trigger the function
- *   handle default output for decrypt
- *
- */
-var
-    input,
-    output,
-    keys = [],
-    len,
-    idx;
-gpf.fs.readAsBinaryStream(parameters.input, function (event) {
-    if ("error" === event.type()) {
-        console.error("Error while getting input stream");
-    }
-    input = event.get("stream");
-});
+// Convert output parameter
 if ("*" === parameters.output) {
-    console.error("Default output not supported yet");
-} else {
-    gpf.fs.writeAsBinaryStream(parameters.output, function (event) {
-        if ("error" === event.type()) {
-            console.error("Error while getting output stream");
-        }
-        output = event.get("stream");
-    });
+    parameters.output = new gpf.stream.Out();
 }
-len = parameters.keys.length;
-for (idx = 0; idx < len; ++idx) {
-    /*jshint -W083*/ // Used to avoid incorrect use of idx
-    gpf.fs.readAsBinaryStream(parameters.keys[idx], (function (idx) {
-        return function (event) {
-            if ("error" === event.type()) {
-                console.error("Error while getting key stream");
-            }
-            keys[idx] = event.get("stream");
-        };
-    })(idx));
+
+function processEnd(event) {
+    if ("error" === event.type()) {
+        console.error("failed.");
+    } else {
+        console.log("done.");
+    }
+}
+
+if ("crypt" === parameters.mode) {
+    gpf.cypher.crypt(parameters.input, parameters.output, parameters.keys,
+        processEnd);
+} else {
+    gpf.cypher.decrypt(parameters.input, parameters.output, parameters.keys,
+        processEnd);
 }
